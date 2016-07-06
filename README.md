@@ -13,6 +13,6 @@ There is no one best protocol or API. Every nontrivial application will require 
 |Framing mechanism |HTTP           |event stream      |binary framing|
 |Binary data transfers |yes        |no(Base64)        |limited       |
 |Compression       |yes            |yes               |limited       |
-|Application transport protocol |HTTP        |HTTP                ||WebSocket        |
-|Network transport protocol |TCP             |TCP                |TCP        |
+|Application transport protocol |HTTP        |HTTP    |WebSocket     |
+|Network transport protocol |TCP             |TCP     |TCP           |
 

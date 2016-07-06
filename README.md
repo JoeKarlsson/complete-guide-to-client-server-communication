@@ -8,11 +8,11 @@ There is no one best protocol or API. Every nontrivial application will require 
 
 |__               |XMLHttpRequest |Server-Sent Events| WebSocket     |
 |_________________|_______________|__________________|_______________|
-Request streaming |no             |no                |yes            |
-Response streaming|limited        |yes               |yes            |
-Framing mechanism |HTTP           |event stream      |binary framing |
-Binary data transfers |yes        |no(Base64)        |limited        |
-Compression       |yes            |yes               |limited        |
-Application transport protocol |HTTP        |HTTP                |WebSocket        |
-Network transport protocol |TCP             |TCP                |TCP        |
+|Request streaming |no             |no                |yes            |
+|Response streaming|limited        |yes               |yes            |
+|Framing mechanism |HTTP           |event stream      |binary framing |
+|Binary data transfers |yes        |no(Base64)        |limited        |
+|Compression       |yes            |yes               |limited        |
+|Application transport protocol |HTTP        |HTTP                ||WebSocket        |
+|Network transport protocol |TCP             |TCP                |TCP        |
 

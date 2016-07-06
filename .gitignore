@@ -1,4 +1,4 @@
 node_modules
-http2/server.key
-http2/server.crt
-http2/server.csr
+/http2/server.key
+/http2/server.crt
+/http2/server.csr

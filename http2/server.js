@@ -1,14 +1,14 @@
 'use strict';
 
-let spdy = require('spdy');
-let fs = require('fs');
+const spdy = require('spdy');
+const fs = require('fs');
 
-let options = {
+const options = {
   key: fs.readFileSync(__dirname + '/server.key'),
   cert: fs.readFileSync(__dirname + '/server.crt')
 };
 
-spdy.createServer(options, function(req, res) {
+spdy.createServer(options, (req, res) => {
     let stream = res
       .push('/main.js', {
         request: {
@@ -23,4 +23,3 @@ spdy.createServer(options, function(req, res) {
     res.writeHead(200);
     res.end('<script src="/main.js"></script>');
 }).listen(3000);
-

@@ -1,10 +1,10 @@
-'use strict'
+'use strict';
 
 const http = require('http');
 const util = require('util');
 const fs = require('fs');
 
-http.createServer(function(req, res) {
+http.createServer((req, res) => {
   debugHeaders(req);
 
   if (req.headers.accept && req.headers.accept == 'text/event-stream') {
@@ -21,16 +21,16 @@ http.createServer(function(req, res) {
   }
 }).listen(8000);
 
-function sendSSE(req, res) {
+const sendSSE = (req, res) => {
   res.writeHead(200, {
     'Content-Type': 'text/event-stream',
     'Cache-Control': 'no-cache',
     'Connection': 'keep-alive'
   });
 
-  var id = (new Date()).toLocaleTimeString();
+  const id = (new Date()).toLocaleTimeString();
 
-  setInterval(function() {
+  setInterval(() => {
     constructSSE(res, id, (new Date()).toLocaleTimeString());
   }, 5000);
 
@@ -38,14 +38,14 @@ function sendSSE(req, res) {
   //res.end();
 }
 
-function constructSSE(res, id, data) {
+const constructSSE = (res, id, data) => {
   res.write('id: ' + id + '\n');
   res.write("data: " + data + '\n\n');
 }
 
-function debugHeaders(req) {
+const debugHeaders = (req) => {
   util.puts('URL: ' + req.url);
-  for (var key in req.headers) {
+  for (let key in req.headers) {
     util.puts(key + ': ' + req.headers[key]);
   }
   util.puts('\n\n');

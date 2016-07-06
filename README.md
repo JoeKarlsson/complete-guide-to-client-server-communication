@@ -1,10 +1,14 @@
 # Complete Guide To Client Server Communication
 
-A complete list of all the ways a Client and Server communicate with each other in JavaScript and Node. — Edit
+A complete list of all the ways a Client and Server communicate with each other in JavaScript and Node. This module covers the following forms of client server connection:
 
-Every time we initiate an HTTP or an XMLHttpRequest, a long-lived Server-Sent Events or WebSocket session, or open a WebRTC connection, we are interacting with some or all of these underlying services.
+* XMLHttpRequest
+* Server-Sent Events
+* WebSocket
+* HTTP/200
+* Server to server
 
-There is no one best protocol or API. Every nontrivial application will require a mix of different transports based on a variety of requirements: interaction with the browser cache, protocol overhead, message latency, reliability, type of data transfer, and more. Some protocols may offer low-latency delivery (e.g., Server-Sent Events, WebSocket), but may not meet other critical criteria, such as the ability to leverage the browser cache or support efficient binary transfers in all cases.
+There is no one best protocol or API for client/server communication. Every nontrivial application will require a mix of different transports based on a variety of requirements: interaction with the browser cache, protocol overhead, message latency, reliability, type of data transfer, and more. Some protocols may offer low-latency delivery (e.g., Server-Sent Events, WebSocket), but may not meet other critical criteria, such as the ability to leverage the browser cache or support efficient binary transfers in all cases.
 
 ![hpbn_1702](https://cloud.githubusercontent.com/assets/4650739/16638018/712e5fe2-437f-11e6-88db-671c60753a9f.png)
 

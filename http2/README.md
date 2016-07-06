@@ -51,4 +51,4 @@ Now we have our certificates ready, we can move on to writing a basic HTTP/2 nod
 * `npm i`
 * `node server.js`
 
-(Inspired by Jacob Clark)[https://medium.com/@imjacobclark/http-2-with-node-js-85da17322812#.uw544zm68]
+[Inspired by Jacob Clark](https://medium.com/@imjacobclark/http-2-with-node-js-85da17322812#.uw544zm68)

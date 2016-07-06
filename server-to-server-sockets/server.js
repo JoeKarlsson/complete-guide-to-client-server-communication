@@ -1,6 +1,8 @@
-var http = require('http');
-var util = require('util');
-var fs = require('fs');
+'use strict'
+
+const http = require('http');
+const util = require('util');
+const fs = require('fs');
 
 http.createServer(function(req, res) {
   debugHeaders(req);

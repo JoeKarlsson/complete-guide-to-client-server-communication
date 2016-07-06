@@ -6,7 +6,7 @@ Every time we initiate an HTTP or an XMLHttpRequest, a long-lived Server-Sent Ev
 
 There is no one best protocol or API. Every nontrivial application will require a mix of different transports based on a variety of requirements: interaction with the browser cache, protocol overhead, message latency, reliability, type of data transfer, and more. Some protocols may offer low-latency delivery (e.g., Server-Sent Events, WebSocket), but may not meet other critical criteria, such as the ability to leverage the browser cache or support efficient binary transfers in all cases.
 
-|                 |XMLHttpRequest |Server-Sent Events| WebSocket     |
+|__               |XMLHttpRequest |Server-Sent Events| WebSocket     |
 |_________________|_______________|__________________|_______________|
 Request streaming |no             |no                |yes            |
 Response streaming|limited        |yes               |yes            |

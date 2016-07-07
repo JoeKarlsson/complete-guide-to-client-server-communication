@@ -17,3 +17,7 @@ xhr.open('GET', '/resource.js'); 1
 xhr.onload = function() { ... };
 xhr.send();
 ```
+
+## Getting Started
+* `node server.js`
+* Open your browser to [http://localhost:3000/](http://localhost:3000/)

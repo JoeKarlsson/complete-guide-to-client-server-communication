@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/JoeKarlsson1/Complete_Guide_To_Client_Server_Communication/issues"
   },
-  "homepage": "https://github.com/JoeKarlsson1/Complete_Guide_To_Client_Server_Communication#readme"
+  "homepage": "https://github.com/JoeKarlsson1/Complete_Guide_To_Client_Server_Communication#readme",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
 }

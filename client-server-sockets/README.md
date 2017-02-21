@@ -16,4 +16,4 @@ This demo requires a server for your client - install `http-server` with `npm i 
 * `npm i`
 * `node server.js`
 * `http-server`
-* Go to `[http://localhost:8081/](http://localhost:8081/)`
+* Go to [http://localhost:8081/](http://localhost:8081/)

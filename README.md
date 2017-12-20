@@ -1,5 +1,7 @@
 # Complete Guide To Client Server Communication
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/JoeKarlsson/complete-guide-to-client-server-communication.svg)](https://greenkeeper.io/)
+
 A complete list of all the ways a Client and Server communicate with each other in JavaScript and Node. This module covers the following forms of client server connection:
 
 * XMLHttpRequest

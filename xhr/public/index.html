@@ -1,12 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>XHR Demo</title>
-</head>
-<body>
-  <h1>XML HTTP Request Demo</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>XHR Demo - Client Server Communication</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f5f5f5;
+      }
+      h1 {
+        color: #333;
+        text-align: center;
+      }
+      .container {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .status {
+        margin-top: 20px;
+        padding: 10px;
+        background: #e8f5e8;
+        border-radius: 4px;
+        border-left: 4px solid #4caf50;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>XMLHttpRequest Demo</h1>
+      <p>
+        This example demonstrates traditional HTTP requests using
+        XMLHttpRequest. The page will automatically update every 3 seconds with
+        the current server time.
+      </p>
 
-  <script type="text/javascript" src="app.js"></script>
-</body>
+      <div class="status">
+        <strong>Status:</strong> <span id="status">Connecting...</span>
+      </div>
+
+      <h3>Server Responses:</h3>
+      <div id="responses"></div>
+    </div>
+
+    <script type="text/javascript" src="app.js"></script>
+  </body>
 </html>

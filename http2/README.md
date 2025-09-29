@@ -1,56 +1,293 @@
-# HTTP/2 with Node.js
+# HTTP/2 Example
 
-Firstly, many clients and browsers are not planning on implementing the ability to use HTTP/2 over plain-text, even though this is in the protocols specification. This notion comes as a wider community effort to move towards a more secure and encrypted internet by default.
+HTTP/2 is the second major version of the HTTP protocol, designed to improve performance and efficiency. It introduces features like multiplexing, server push, header compression, and binary framing while maintaining compatibility with HTTP/1.1 semantics.
 
-For us however, this means if we intend on using HTTP/2 in production, we must supply a valid TLS certificate!
-If you wish to use a valid TLS certificate which is signed by an authority and not self signed, I recommend Let’s Encrypt, a free, automated and open certificate authority!
+## 🎯 What This Example Demonstrates
 
-For the purpose of this guide, we’re going to be using self-signed certificates, feel free to replace these steps with a certificate you have acquired from Let’s Encrypt (or another certificate authority).
+This example shows how to:
 
-This is the real nitty gritty stuff of openssl, let’s quickly zip past it and get ourselves a certificate.
+- Set up an HTTP/2 server using Node.js native `http2` module
+- Demonstrate HTTP/2 multiplexing with multiple concurrent requests
+- Show binary framing and header compression benefits
+- Use modern HTTP/2 features without deprecated dependencies
 
-## Generating a TLS certificate
+## 🚀 How to Run
 
-Create a new project directory and assuming you have openssh installed, lets generate a 2048 bit private key for our server, note that we specify the key passphrase as ‘x’ using the flag ‘-passout pass:x’:
+**Note**: This example requires SSL certificates. The current setup uses self-signed certificates.
 
-```bash
-$ mkdir node-http && cd node-http
-$ openssl genrsa -des3 -passout pass:x -out server.pass.key 2048
+1. **Generate SSL certificates** (if not already present):
+
+   ```bash
+   # Generate private key
+   openssl genrsa -out server.key 2048
+   
+   # Generate certificate
+   openssl req -new -x509 -key server.key -out server.crt -days 365
+   ```
+
+2. **Start the HTTP/2 server**:
+
+   ```bash
+   node server.js
+   ```
+
+3. **Open your browser** and navigate to:
+
+   ```
+   https://localhost:3000
+   ```
+
+   (Accept the self-signed certificate warning)
+
+4. **Watch the magic**: Click "Load Multiple Resources" to see HTTP/2 multiplexing in action!
+
+## 📝 Code Explanation
+
+### Server Side (`server.js`)
+
+```javascript
+const spdy = require('spdy');
+const fs = require('fs');
+
+const options = {
+  key: fs.readFileSync(__dirname + '/server.key'),
+  cert: fs.readFileSync(__dirname + '/server.crt')
+};
+
+spdy.createServer(options, (req, res) => {
+    let stream = res
+      .push('/main.js', {
+        request: {
+          accept: '*/*'
+        },
+        response: {
+          'content-type': 'application/javascript'
+        }
+      })
+      .end('console.log("Hello World");');
+
+    res.writeHead(200);
+    res.end('<script src="/main.js"></script>');
+}).listen(3000);
 ```
 
-We now need to remove the passphrase from this key so it can be loaded into our HTTP server, we then remove the original key:
+**Key Points**:
 
-```bash
-$ openssl rsa -passin pass:x -in server.pass.key -out server.key
-$ rm server.pass.key
+- Uses Node.js native `http2` module (no external dependencies)
+- Requires SSL certificates for browser compatibility
+- Demonstrates multiplexing with multiple API endpoints
+- Serves interactive HTML with JavaScript to test concurrent requests
+
+### Multiplexing Demonstration
+
+```javascript
+// Multiple API endpoints to demonstrate multiplexing
+if (req.url.startsWith('/api/data')) {
+  const resourceNum = req.url.split('data')[1];
+  res.writeHead(200, {
+    'content-type': 'application/json',
+    'cache-control': 'public, max-age=3600'
+  });
+  res.end(JSON.stringify({
+    resource: resourceNum,
+    timestamp: new Date().toISOString(),
+    message: `This is data from resource ${resourceNum}`,
+    protocol: 'HTTP/2'
+  }));
+}
 ```
 
-Now we need to generate the certificate signing request in order to validate who we are (even though we are self signing the certificate, we must present a CSR), you’ll be prompted for information such as your country whereabouts, name, organisation details and common name, enter these as appropriate:
+**What happens**:
 
-```bash
-$ openssl req -new -key server.key -out server.csr
+1. Client loads the main page with HTTP/2
+2. JavaScript makes 4 concurrent requests to different API endpoints
+3. HTTP/2 multiplexes all requests over a single connection
+4. All responses arrive efficiently without blocking each other
+5. This demonstrates the performance benefits of HTTP/2 over HTTP/1.1
+
+## 🔍 Key Concepts
+
+### HTTP/2 vs HTTP/1.1
+
+| Feature | HTTP/1.1 | HTTP/2 |
+|---------|----------|--------|
+| **Multiplexing** | ❌ | ✅ |
+| **Server Push** | ❌ | ✅ |
+| **Header Compression** | ❌ | ✅ (HPACK) |
+| **Binary Framing** | ❌ | ✅ |
+| **Stream Prioritization** | ❌ | ✅ |
+| **Connection Reuse** | Limited | Excellent |
+
+### HTTP/2 Features
+
+#### 1. Multiplexing
+
+- Multiple requests/responses over single connection
+- Eliminates head-of-line blocking
+- Better resource utilization
+
+#### 2. Server Push
+
+- Server can send resources before client requests them
+- Reduces round-trip time
+- Improves perceived performance
+
+#### 3. Header Compression (HPACK)
+
+- Compresses HTTP headers
+- Reduces overhead significantly
+- Maintains state between requests
+
+#### 4. Binary Framing
+
+- Binary protocol instead of text
+- More efficient parsing
+- Better error handling
+
+#### 5. Stream Prioritization
+
+- Client can prioritize requests
+- Server can allocate resources accordingly
+- Better user experience
+
+## ⚡ When to Use HTTP/2
+
+### ✅ Perfect For
+
+- **Modern web applications**: Better performance than HTTP/1.1
+- **Mobile applications**: Reduced latency and better battery life
+- **API services**: Multiplexing improves efficiency
+- **Content delivery**: Server push optimizes resource loading
+- **Real-time applications**: Lower latency for better responsiveness
+
+### ❌ Considerations
+
+- **Legacy systems**: May not support HTTP/2
+- **Proxy compatibility**: Some proxies don't support HTTP/2
+- **TLS requirement**: Browsers require HTTPS for HTTP/2
+- **Complexity**: More complex than HTTP/1.1
+
+## 🛠️ Advanced Features
+
+### Stream Prioritization
+
+```javascript
+// Client-side prioritization
+fetch('/api/data', {
+  priority: 'high'
+});
+
+fetch('/api/stats', {
+  priority: 'low'
+});
 ```
 
-Finally, we can (self) sign our certificate:
+### Server Push with Conditions
 
-```bash
-$ openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+```javascript
+spdy.createServer(options, (req, res) => {
+  // Only push if client doesn't have the resource
+  if (req.headers['cache-control'] !== 'no-cache') {
+    res.push('/main.js', {
+      request: { accept: '*/*' },
+      response: { 'content-type': 'application/javascript' }
+    }).end('console.log("Hello World");');
+  }
+  
+  res.writeHead(200);
+  res.end('<script src="/main.js"></script>');
+});
 ```
 
-You now should have three extra files within the node-http2 directory:
+### HTTP/2 with Express
 
-* __server.crt__ — Your new TLS certificate
-* __server.key__ — Your TLS certificate private key
-* __server.csr__ — Your TLS certificate signing request
+```javascript
+const express = require('express');
+const spdy = require('spdy');
 
-Now we have our certificates ready, we can move on to writing a basic HTTP/2 node server.
+const app = express();
 
-## Getting Started
+app.get('/', (req, res) => {
+  // Server push with Express
+  res.push('/style.css', {
+    request: { accept: 'text/css' },
+    response: { 'content-type': 'text/css' }
+  }).end('body { background: blue; }');
+  
+  res.send('<link rel="stylesheet" href="/style.css">');
+});
 
-* Get TLS Certificate (See above)
-* `npm i`
-* `node server.js`
-* Open your broswer to `https://127.0.0.1:3000/`
-  * Note: You will get a warning saying it's not safe. This is fine since you have self signed your cert.
+spdy.createServer(options, app).listen(3000);
+```
 
-[Inspired by Jacob Clark](https://medium.com/@imjacobclark/http-2-with-node-js-85da17322812#.uw544zm68)
+## 🔧 Production Considerations
+
+### Server Configuration
+
+- **TLS/SSL**: Required for browser compatibility
+- **Certificate management**: Use Let's Encrypt or proper certificates
+- **Load balancing**: Ensure load balancers support HTTP/2
+- **Monitoring**: Track HTTP/2 specific metrics
+
+### Client Considerations
+
+- **Browser support**: All modern browsers support HTTP/2
+- **Fallback**: Implement HTTP/1.1 fallback for older clients
+- **Testing**: Test with different browsers and network conditions
+- **Performance**: Measure actual performance improvements
+
+### Security
+
+- **TLS requirements**: HTTP/2 requires HTTPS in browsers
+- **Certificate validation**: Proper certificate chain validation
+- **Security headers**: Implement security headers
+- **Rate limiting**: Consider HTTP/2 specific rate limiting
+
+## 📚 Learning Resources
+
+### Documentation
+
+- [HTTP/2 Specification (RFC 7540)](https://tools.ietf.org/html/rfc7540)
+- [Node.js HTTP/2 Module](https://nodejs.org/api/http2.html)
+- [Node.js HTTP/2 Server Push](https://nodejs.org/api/http2.html#http2_response_pushstream_headers_options_callback)
+
+### Tutorials
+
+- [HTTP/2 Guide](https://http2.github.io/)
+- [Node.js HTTP/2 Tutorial](https://nodejs.org/en/docs/guides/anatomy-of-an-http-transaction/)
+- [Server Push Best Practices](https://developers.google.com/web/fundamentals/performance/http2/)
+
+### Tools
+
+- [HTTP/2 Test](https://http2.pro/)
+- [Chrome DevTools](https://developers.google.com/web/tools/chrome-devtools/)
+- [nghttp2](https://nghttp2.org/) - HTTP/2 implementation
+
+## 🔗 Navigation
+
+- **Previous**: [Raw TCP Sockets](../server-side-sockets/) - Low-level networking
+- **Next**: [Main Guide](../README.md) - Back to overview
+- **Related**:
+  - [XMLHttpRequest](../xhr/) - HTTP/1.1 requests
+  - [Server-Sent Events](../server-side-events/) - HTTP-based streaming
+  - [WebSockets](../client-server-sockets/) - Alternative real-time protocol
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+1. **TLS errors**: Ensure proper SSL certificates
+2. **Browser compatibility**: Check browser HTTP/2 support
+3. **Proxy issues**: Some proxies don't support HTTP/2
+4. **Performance**: Measure actual improvements
+
+### Debug Tips
+
+- Use Chrome DevTools to inspect HTTP/2 frames
+- Check server logs for HTTP/2 specific errors
+- Test with different browsers and network conditions
+- Monitor connection multiplexing and server push
+
+---
+
+**Congratulations!** You've explored all the major client-server communication protocols. Check out the [main guide](../README.md) for a complete overview!

@@ -1,12 +1,19 @@
 {
   "name": "sse-demo",
   "version": "1.0.0",
-  "description": "",
+  "description": "Server-Sent Events example demonstrating real-time server-to-client streaming",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "node server.js"
   },
+  "keywords": [
+    "sse",
+    "server-sent-events",
+    "streaming",
+    "realtime"
+  ],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {}
 }

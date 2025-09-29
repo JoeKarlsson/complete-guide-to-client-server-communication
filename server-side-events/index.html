@@ -1,14 +1,112 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8" />
-</head>
-<body>
-  <script>
-    var source = new EventSource('/events');
-    source.onmessage = function(e) {
-      document.body.innerHTML += e.data + '<br>';
-    };
-  </script>
-</body>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Server-Sent Events Demo</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f5f5f5;
+      }
+      h1 {
+        color: #333;
+        text-align: center;
+      }
+      .container {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .status {
+        margin-top: 20px;
+        padding: 10px;
+        border-radius: 4px;
+        border-left: 4px solid #4caf50;
+      }
+      .connected {
+        background: #e8f5e8;
+      }
+      .disconnected {
+        background: #ffebee;
+        border-left-color: #f44336;
+      }
+      .message {
+        margin: 5px 0;
+        padding: 8px;
+        background: #f0f0f0;
+        border-radius: 3px;
+        border-left: 3px solid #2196f3;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Server-Sent Events Demo</h1>
+      <p>
+        This example demonstrates real-time server-to-client communication using
+        Server-Sent Events. The server will push updates every 5 seconds.
+      </p>
+
+      <div class="status" id="status">
+        <strong>Connection Status:</strong>
+        <span id="statusText">Connecting...</span>
+      </div>
+
+      <h3>Server Messages:</h3>
+      <div id="messages"></div>
+    </div>
+
+    <script>
+      // Create a new EventSource connection to the server's SSE endpoint
+      // EventSource automatically handles the connection and reconnection
+      const source = new EventSource("/events");
+
+      // Get references to DOM elements for updating the UI
+      const statusEl = document.getElementById("status");
+      const statusTextEl = document.getElementById("statusText");
+      const messagesEl = document.getElementById("messages");
+      let messageCount = 0;
+
+      // Event handler for when the SSE connection is successfully established
+      source.onopen = function () {
+        statusTextEl.textContent = "Connected";
+        statusEl.className = "status connected";
+      };
+
+      // Event handler for when new data arrives from the server
+      // This is the main function that processes incoming SSE messages
+      source.onmessage = function (e) {
+        messageCount++;
+
+        // Create a new div element to display the message
+        const messageDiv = document.createElement("div");
+        messageDiv.className = "message";
+        messageDiv.innerHTML = `<strong>Message ${messageCount}:</strong> ${e.data}`;
+
+        // Add the message to the messages container
+        messagesEl.appendChild(messageDiv);
+
+        // Scroll to the bottom to show the latest message
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+      };
+
+      // Event handler for connection errors
+      // SSE automatically attempts to reconnect, but we update the UI to show the error
+      source.onerror = function () {
+        statusTextEl.textContent = "Connection Error";
+        statusEl.className = "status disconnected";
+      };
+
+      // Clean up: Close the SSE connection when the page is about to unload
+      // This prevents memory leaks and unnecessary server connections
+      window.addEventListener("beforeunload", function () {
+        source.close();
+      });
+    </script>
+  </body>
 </html>

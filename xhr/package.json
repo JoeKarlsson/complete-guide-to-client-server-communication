@@ -1,0 +1,21 @@
+{
+  "name": "xhr-demo",
+  "version": "1.0.0",
+  "description": "XMLHttpRequest example demonstrating traditional HTTP requests",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "xhr",
+    "http",
+    "ajax",
+    "client-server"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

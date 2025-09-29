@@ -1,23 +1,54 @@
 {
   "name": "complete-client-server-communication",
-  "version": "1.0.0",
-  "description": "A complete list of all the ways a Client and Server communicate with each other in JavaScript and Node. — Edit",
+  "version": "2.1.0",
+  "description": "A comprehensive guide to all the ways clients and servers communicate in JavaScript and Node.js",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:xhr": "cd xhr && npm install && node server.js",
+    "start:sse": "cd server-side-events && npm install && node server.js",
+    "start:websocket": "cd client-server-sockets && npm install && node server.js",
+    "start:tcp": "cd server-side-sockets && npm install && node server.js",
+    "start:http2": "cd http2 && npm install && npm run generate-certs && node server.js",
+    "install:all": "npm install && cd xhr && npm install && cd ../server-side-events && npm install && cd ../client-server-sockets && npm install && cd ../server-side-sockets && npm install && cd ../http2 && npm install",
+    "update:deps": "npm update && npm run install:all",
+    "check:outdated": "npm outdated",
+    "lint": "echo \"No linting configured yet\"",
+    "dev": "echo \"Choose an example: npm run start:xhr, npm run start:sse, etc.\""
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/JoeKarlsson1/Complete_Guide_To_Client_Server_Communication.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "client-server",
+    "communication",
+    "protocols",
+    "xhr",
+    "websocket",
+    "sse",
+    "http2",
+    "tcp",
+    "networking",
+    "javascript",
+    "nodejs"
+  ],
+  "author": "Joe Karlsson",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/JoeKarlsson1/Complete_Guide_To_Client_Server_Communication/issues"
   },
   "homepage": "https://github.com/JoeKarlsson1/Complete_Guide_To_Client_Server_Communication#readme",
   "dependencies": {
-    "express": "^4.14.0"
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "ws": "^8.14.2",
+    "nodemon": "^3.0.1",
+    "npm-check-updates": "^16.14.0"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
   }
 }

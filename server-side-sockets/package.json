@@ -1,0 +1,20 @@
+{
+  "name": "server-side-sockets-demo",
+  "version": "1.0.0",
+  "description": "Raw TCP sockets example demonstrating low-level networking",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "client": "node client.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "tcp",
+    "sockets",
+    "networking",
+    "low-level"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {}
+}

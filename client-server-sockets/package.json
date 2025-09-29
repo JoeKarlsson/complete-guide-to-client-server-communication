@@ -1,16 +1,21 @@
 {
-  "name": "client-web-sockets",
+  "name": "websocket-demo",
   "version": "1.0.0",
-  "description": "",
+  "description": "WebSocket example demonstrating bidirectional real-time communication",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "node server.js"
   },
-  "keywords": [],
+  "keywords": [
+    "websocket",
+    "realtime",
+    "bidirectional",
+    "communication"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ws": "^1.1.1"
+    "ws": "^8.14.2"
   }
 }

@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebRTC Peer-to-Peer Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        .status.disconnected {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+        .status.connecting {
+            background-color: #fff3e0;
+            color: #ef6c00;
+        }
+        .status.connected {
+            background-color: #e8f5e8;
+            color: #2e7d32;
+        }
+        .controls {
+            margin: 20px 0;
+        }
+        button {
+            background-color: #2196f3;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        button:hover {
+            background-color: #1976d2;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .message-area {
+            border: 1px solid #ddd;
+            height: 200px;
+            overflow-y: auto;
+            padding: 10px;
+            background-color: #fafafa;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .message {
+            margin: 5px 0;
+            padding: 5px;
+            border-radius: 3px;
+        }
+        .message.sent {
+            background-color: #e3f2fd;
+            text-align: right;
+        }
+        .message.received {
+            background-color: #f3e5f5;
+        }
+        .message.system {
+            background-color: #fff3e0;
+            font-style: italic;
+        }
+        input[type="text"] {
+            width: 70%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            margin-right: 10px;
+        }
+        .info {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .feature-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .feature-list li {
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .feature-list li:before {
+            content: "✓ ";
+            color: #4caf50;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 WebRTC Peer-to-Peer Demo</h1>
+        
+        <div class="info">
+            <h3>What is WebRTC?</h3>
+            <p>WebRTC enables <strong>direct browser-to-browser communication</strong> without a central server handling the data. This demo shows peer-to-peer messaging using WebRTC data channels.</p>
+            
+            <h4>Key Features Demonstrated:</h4>
+            <ul class="feature-list">
+                <li>Direct peer-to-peer connection</li>
+                <li>Real-time bidirectional messaging</li>
+                <li>Automatic NAT traversal</li>
+                <li>Encrypted data transmission</li>
+                <li>Connection state management</li>
+            </ul>
+        </div>
+
+        <div id="status" class="status disconnected">
+            Status: Disconnected
+        </div>
+
+        <div class="controls">
+            <button id="startBtn" onclick="startConnection()">Start Connection</button>
+            <button id="acceptBtn" onclick="acceptConnection()" disabled>Accept Connection</button>
+            <button id="closeBtn" onclick="closeConnection()" disabled>Close Connection</button>
+        </div>
+
+        <div class="message-area" id="messages">
+            <div class="message system">WebRTC Demo Ready - Open another browser window to test peer-to-peer communication!</div>
+        </div>
+
+        <div class="controls">
+            <input type="text" id="messageInput" placeholder="Type a message..." disabled>
+            <button id="sendBtn" onclick="sendMessage()" disabled>Send Message</button>
+        </div>
+
+        <div class="info">
+            <h4>How to Test:</h4>
+            <ol>
+                <li>Open this page in <strong>two different browser windows</strong></li>
+                <li>In the first window, click "Start Connection"</li>
+                <li>In the second window, click "Accept Connection"</li>
+                <li>Send messages between the windows!</li>
+            </ol>
+            <p><strong>Note:</strong> Messages are sent directly between browsers - no server handles the actual data!</p>
+        </div>
+    </div>
+
+    <script>
+        // WebRTC configuration and state management
+        let peerConnection = null;
+        let dataChannel = null;
+        let signalingSocket = null;
+        let isInitiator = false;
+
+        // DOM element references
+        const statusEl = document.getElementById('status');
+        const messagesEl = document.getElementById('messages');
+        const messageInput = document.getElementById('messageInput');
+        const startBtn = document.getElementById('startBtn');
+        const acceptBtn = document.getElementById('acceptBtn');
+        const closeBtn = document.getElementById('closeBtn');
+        const sendBtn = document.getElementById('sendBtn');
+
+        // WebRTC configuration with STUN servers for NAT traversal
+        // STUN servers help peers discover their public IP addresses
+        const rtcConfig = {
+            iceServers: [
+                { urls: 'stun:stun.l.google.com:19302' },
+                { urls: 'stun:stun1.l.google.com:19302' }
+            ]
+        };
+
+        // Initialize the WebRTC demo
+        function init() {
+            // Connect to the signaling server
+            connectSignaling();
+            
+            // Set up message input handling
+            messageInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+        }
+
+        // Connect to the WebSocket signaling server
+        function connectSignaling() {
+            signalingSocket = new WebSocket('ws://localhost:8080');
+            
+            signalingSocket.onopen = () => {
+                addSystemMessage('Connected to signaling server');
+            };
+            
+            signalingSocket.onmessage = (event) => {
+                // Handle incoming signaling messages
+                const message = JSON.parse(event.data);
+                handleSignalingMessage(message);
+            };
+            
+            signalingSocket.onerror = (error) => {
+                console.error('Signaling error:', error);
+                addSystemMessage('Signaling server error');
+            };
+        }
+
+        // Handle incoming signaling messages (offers, answers, ICE candidates)
+        function handleSignalingMessage(message) {
+            console.log('Received signaling message:', message.type);
+            
+            switch (message.type) {
+                case 'offer':
+                    // Received an offer from another peer
+                    handleOffer(message.offer);
+                    break;
+                case 'answer':
+                    // Received an answer to our offer
+                    handleAnswer(message.answer);
+                    break;
+                case 'ice-candidate':
+                    // Received ICE candidate for connection establishment
+                    handleIceCandidate(message.candidate);
+                    break;
+            }
+        }
+
+        // Start a new WebRTC connection (initiator role)
+        function startConnection() {
+            isInitiator = true;
+            createPeerConnection();
+            
+            // Create a data channel for sending messages
+            dataChannel = peerConnection.createDataChannel('messages', {
+                ordered: true  // Ensure messages arrive in order
+            });
+            
+            // Set up data channel event handlers
+            setupDataChannel(dataChannel);
+            
+            // Create and send an offer
+            peerConnection.createOffer()
+                .then(offer => {
+                    return peerConnection.setLocalDescription(offer);
+                })
+                .then(() => {
+                    // Send the offer to the other peer via signaling server
+                    sendSignalingMessage({
+                        type: 'offer',
+                        offer: peerConnection.localDescription
+                    });
+                    updateStatus('connecting', 'Waiting for peer to accept...');
+                })
+                .catch(error => {
+                    console.error('Error creating offer:', error);
+                    addSystemMessage('Error creating connection offer');
+                });
+            
+            // Update UI state
+            startBtn.disabled = true;
+            acceptBtn.disabled = true;
+        }
+
+        // Accept an incoming WebRTC connection (receiver role)
+        function acceptConnection() {
+            isInitiator = false;
+            createPeerConnection();
+            
+            // Set up handler for incoming data channel
+            peerConnection.ondatachannel = (event) => {
+                dataChannel = event.channel;
+                setupDataChannel(dataChannel);
+            };
+            
+            // Update UI state
+            startBtn.disabled = true;
+            acceptBtn.disabled = true;
+        }
+
+        // Create a new RTCPeerConnection
+        function createPeerConnection() {
+            peerConnection = new RTCPeerConnection(rtcConfig);
+            
+            // Handle ICE candidates (network addresses for connection)
+            peerConnection.onicecandidate = (event) => {
+                if (event.candidate) {
+                    // Send ICE candidate to the other peer
+                    sendSignalingMessage({
+                        type: 'ice-candidate',
+                        candidate: event.candidate
+                    });
+                }
+            };
+            
+            // Handle connection state changes
+            peerConnection.onconnectionstatechange = () => {
+                const state = peerConnection.connectionState;
+                console.log('Connection state:', state);
+                
+                switch (state) {
+                    case 'connected':
+                        updateStatus('connected', 'Peer-to-peer connection established!');
+                        enableMessaging();
+                        break;
+                    case 'disconnected':
+                    case 'failed':
+                        updateStatus('disconnected', 'Connection lost');
+                        disableMessaging();
+                        break;
+                    case 'connecting':
+                        updateStatus('connecting', 'Establishing connection...');
+                        break;
+                }
+            };
+            
+            // Handle ICE connection state changes
+            peerConnection.oniceconnectionstatechange = () => {
+                console.log('ICE connection state:', peerConnection.iceConnectionState);
+            };
+        }
+
+        // Set up data channel event handlers
+        function setupDataChannel(channel) {
+            channel.onopen = () => {
+                console.log('Data channel opened');
+                addSystemMessage('Data channel ready for messaging');
+            };
+            
+            channel.onmessage = (event) => {
+                // Handle incoming messages from the peer
+                addMessage(event.data, 'received');
+            };
+            
+            channel.onclose = () => {
+                console.log('Data channel closed');
+                addSystemMessage('Data channel closed');
+            };
+            
+            channel.onerror = (error) => {
+                console.error('Data channel error:', error);
+                addSystemMessage('Data channel error');
+            };
+        }
+
+        // Handle incoming offer from another peer
+        function handleOffer(offer) {
+            if (!peerConnection) {
+                createPeerConnection();
+            }
+            
+            peerConnection.setRemoteDescription(offer)
+                .then(() => {
+                    return peerConnection.createAnswer();
+                })
+                .then(answer => {
+                    return peerConnection.setLocalDescription(answer);
+                })
+                .then(() => {
+                    // Send the answer back to the initiator
+                    sendSignalingMessage({
+                        type: 'answer',
+                        answer: peerConnection.localDescription
+                    });
+                })
+                .catch(error => {
+                    console.error('Error handling offer:', error);
+                });
+        }
+
+        // Handle incoming answer to our offer
+        function handleAnswer(answer) {
+            peerConnection.setRemoteDescription(answer)
+                .catch(error => {
+                    console.error('Error handling answer:', error);
+                });
+        }
+
+        // Handle incoming ICE candidate
+        function handleIceCandidate(candidate) {
+            peerConnection.addIceCandidate(candidate)
+                .catch(error => {
+                    console.error('Error adding ICE candidate:', error);
+                });
+        }
+
+        // Send a signaling message to the other peer
+        function sendSignalingMessage(message) {
+            if (signalingSocket && signalingSocket.readyState === WebSocket.OPEN) {
+                signalingSocket.send(JSON.stringify(message));
+            }
+        }
+
+        // Send a message through the data channel
+        function sendMessage() {
+            const message = messageInput.value.trim();
+            if (message && dataChannel && dataChannel.readyState === 'open') {
+                dataChannel.send(message);
+                addMessage(message, 'sent');
+                messageInput.value = '';
+            }
+        }
+
+        // Close the WebRTC connection
+        function closeConnection() {
+            if (peerConnection) {
+                peerConnection.close();
+                peerConnection = null;
+            }
+            if (dataChannel) {
+                dataChannel.close();
+                dataChannel = null;
+            }
+            
+            updateStatus('disconnected', 'Connection closed');
+            disableMessaging();
+            
+            // Reset UI state
+            startBtn.disabled = false;
+            acceptBtn.disabled = false;
+            closeBtn.disabled = true;
+        }
+
+        // Update connection status display
+        function updateStatus(type, text) {
+            statusEl.className = `status ${type}`;
+            statusEl.textContent = `Status: ${text}`;
+        }
+
+        // Enable messaging interface
+        function enableMessaging() {
+            messageInput.disabled = false;
+            sendBtn.disabled = false;
+            closeBtn.disabled = false;
+            messageInput.focus();
+        }
+
+        // Disable messaging interface
+        function disableMessaging() {
+            messageInput.disabled = true;
+            sendBtn.disabled = true;
+            closeBtn.disabled = true;
+        }
+
+        // Add a message to the message area
+        function addMessage(content, type) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            messageDiv.textContent = `${type === 'sent' ? 'You' : 'Peer'}: ${content}`;
+            messagesEl.appendChild(messageDiv);
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+        }
+
+        // Add a system message to the message area
+        function addSystemMessage(content) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message system';
+            messageDiv.textContent = content;
+            messagesEl.appendChild(messageDiv);
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+        }
+
+        // Initialize the demo when the page loads
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

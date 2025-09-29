@@ -1,0 +1,27 @@
+{
+  "name": "webrtc-demo",
+  "version": "1.0.0",
+  "description": "WebRTC example demonstrating peer-to-peer communication with data channels",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "echo \"Open two browser windows to test peer-to-peer connection\""
+  },
+  "keywords": [
+    "webrtc",
+    "peer-to-peer",
+    "data-channel",
+    "real-time",
+    "p2p"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "ws": "^8.14.2",
+    "express": "^4.18.2"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

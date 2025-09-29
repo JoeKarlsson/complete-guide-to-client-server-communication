@@ -24,19 +24,23 @@ node server.js
 | **[WebSockets](./client-server-sockets/)** | Bidirectional real-time communication | Chat apps, live collaboration | `client-server-sockets/` |
 | **[Raw TCP Sockets](./server-side-sockets/)** | Low-level network communication | Custom protocols, IoT | `server-side-sockets/` |
 | **[HTTP/2](./http2/)** | Modern HTTP with multiplexing | Performance optimization | `http2/` |
+| **[WebRTC](./webrtc/)** | Peer-to-peer communication | Video calls, file sharing | `webrtc/` |
+| **[HTTP/3](./http3/)** | Latest HTTP with QUIC | Modern web apps, mobile | `http3/` |
 
 ## 🔄 Protocol Comparison
 
-| Feature | XHR | SSE | WebSocket | TCP | HTTP/2 |
-|---------|-----|-----|-----------|-----|--------|
-| **Request streaming** | ❌ | ❌ | ✅ | ✅ | ✅ |
-| **Response streaming** | Limited | ✅ | ✅ | ✅ | ✅ |
-| **Bidirectional** | ❌ | ❌ | ✅ | ✅ | ✅ |
-| **Binary data** | ✅ | ❌ | ✅ | ✅ | ✅ |
-| **Browser cache** | ✅ | ❌ | ❌ | ❌ | ✅ |
-| **Compression** | ✅ | ✅ | Limited | ❌ | ✅ |
-| **Latency** | High | Low | Low | Very Low | Medium |
-| **Complexity** | Low | Low | Medium | High | Medium |
+| Feature | XHR | SSE | WebSocket | TCP | HTTP/2 | WebRTC | HTTP/3 |
+|---------|-----|-----|-----------|-----|--------|--------|--------|
+| **Request streaming** | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Response streaming** | Limited | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Bidirectional** | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Binary data** | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Browser cache** | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ |
+| **Compression** | ✅ | ✅ | Limited | ❌ | ✅ | ✅ | ✅ |
+| **Latency** | High | Low | Low | Very Low | Medium | Very Low | Low |
+| **Complexity** | Low | Low | Medium | High | Medium | High | High |
+| **Peer-to-Peer** | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| **Built-in Encryption** | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
 
 ## 🎯 When to Use Each Protocol
 
@@ -75,6 +79,20 @@ node server.js
 - **Cons**: Requires HTTPS, newer protocol
 - **Example**: Modern web apps, mobile applications
 
+### WebRTC
+
+- **Best for**: Peer-to-peer communication, real-time applications
+- **Pros**: Direct browser-to-browser connection, built-in encryption, low latency
+- **Cons**: Complex setup, requires signaling server, browser compatibility
+- **Example**: Video calls, file sharing, gaming, collaborative tools
+
+### HTTP/3
+
+- **Best for**: Modern web applications, mobile apps, global services
+- **Pros**: QUIC protocol, built-in encryption, 0-RTT connection, better mobile performance
+- **Cons**: Newer protocol, limited server support, some network restrictions
+- **Example**: Modern web apps, mobile applications, global content delivery
+
 ## 🛠️ Getting Started
 
 1. **Clone the repository**:
@@ -103,6 +121,8 @@ node server.js
    npm run start:websocket   # WebSockets
    npm run start:tcp         # Raw TCP Sockets
    npm run start:http2       # HTTP/2
+   npm run start:webrtc      # WebRTC
+   npm run start:http3       # HTTP/3
    ```
 
 ## 🔧 Development
@@ -153,6 +173,8 @@ All examples have been comprehensively tested and are working perfectly:
 - ✅ **WebSocket**: Bidirectional communication with both browser and Node.js clients
 - ✅ **TCP Sockets**: Raw TCP communication for custom protocols
 - ✅ **HTTP/2**: Modern HTTP with multiplexing and binary framing
+- ✅ **WebRTC**: Peer-to-peer communication with data channels
+- ✅ **HTTP/3**: Latest HTTP with QUIC protocol and built-in encryption
 
 ## 🤝 Contributing
 

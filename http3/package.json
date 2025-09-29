@@ -1,0 +1,28 @@
+{
+  "name": "http3-demo",
+  "version": "1.0.0",
+  "description": "HTTP/3 example demonstrating QUIC protocol and modern HTTP features",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "generate-certs": "openssl genrsa -out server.key 2048 && openssl req -new -x509 -key server.key -out server.crt -days 365 -subj \"/C=US/ST=CA/L=San Francisco/O=Test/OU=Test/CN=localhost\"",
+    "setup": "npm run generate-certs && npm start"
+  },
+  "keywords": [
+    "http3",
+    "quic",
+    "udp",
+    "modern-http",
+    "performance"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "h3": "^1.8.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

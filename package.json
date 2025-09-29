@@ -1,6 +1,6 @@
 {
   "name": "complete-client-server-communication",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "A comprehensive guide to all the ways clients and servers communicate in JavaScript and Node.js",
   "main": "index.js",
   "scripts": {
@@ -9,8 +9,9 @@
     "start:sse": "cd server-side-events && npm install && node server.js",
     "start:websocket": "cd client-server-sockets && npm install && node server.js",
     "start:tcp": "cd server-side-sockets && npm install && node server.js",
-    "start:http2": "cd http2 && npm install && npm run generate-certs && node server.js",
-    "install:all": "npm install && cd xhr && npm install && cd ../server-side-events && npm install && cd ../client-server-sockets && npm install && cd ../server-side-sockets && npm install && cd ../http2 && npm install",
+    "start:webrtc": "cd webrtc && npm install && node server.js",
+    "start:http3": "cd http3 && npm install && npm run generate-certs && node server.js",
+    "install:all": "npm install && cd xhr && npm install && cd ../server-side-events && npm install && cd ../client-server-sockets && npm install && cd ../server-side-sockets && npm install && cd ../http2 && npm install && cd ../webrtc && npm install && cd ../http3 && npm install",
     "update:deps": "npm update && npm run install:all",
     "check:outdated": "npm outdated",
     "lint": "echo \"No linting configured yet\"",

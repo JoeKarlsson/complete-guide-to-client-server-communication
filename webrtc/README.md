@@ -175,7 +175,7 @@ peerConnection.ondatachannel = (event) => {
 ## 🔗 Related Examples
 
 - **Previous**: [WebSockets](./client-server-sockets/) - Server-mediated real-time communication
-- **Next**: [HTTP/3](./http3/) - Latest HTTP protocol with QUIC
+- **Next**: [XHR](./xhr/) - Traditional HTTP requests
 - **Related**: [Server-Sent Events](./server-side-events/) - Server-to-client streaming
 - **Related**: [TCP Sockets](./server-side-sockets/) - Low-level networking
 

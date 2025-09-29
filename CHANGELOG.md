@@ -5,27 +5,24 @@ All notable changes to this project will be documented in this file.
 ## [2.2.0] - 2024-09-29
 
 ### Added
+
 - **WebRTC Example**: Complete peer-to-peer communication demo with data channels
   - Signaling server using WebSocket
   - Interactive browser-to-browser messaging
   - Comprehensive documentation and setup instructions
-- **HTTP/3 Example**: Latest HTTP protocol with QUIC support
-  - QUIC protocol demonstration over UDP
-  - Built-in encryption and 0-RTT connection features
-  - Performance comparison with HTTP/2
-  - Interactive multiplexing demonstration
 
 ### Changed
+
 - Updated main README with new protocol examples
-- Enhanced protocol comparison table with WebRTC and HTTP/3 features
+- Enhanced protocol comparison table with WebRTC features
 - Updated package.json scripts for new examples
 - Version bump to 2.2.0
 
 ### Enhanced
+
 - Comprehensive educational comments in all examples
-- Modern protocol coverage (now 7 protocols total)
+- Modern protocol coverage (now 6 protocols total)
 - Complete peer-to-peer communication demonstration
-- Latest HTTP protocol implementation
 
 ## [2.1.0] - 2024-09-29
 

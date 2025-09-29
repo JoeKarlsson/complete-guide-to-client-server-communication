@@ -25,22 +25,21 @@ node server.js
 | **[Raw TCP Sockets](./server-side-sockets/)** | Low-level network communication | Custom protocols, IoT | `server-side-sockets/` |
 | **[HTTP/2](./http2/)** | Modern HTTP with multiplexing | Performance optimization | `http2/` |
 | **[WebRTC](./webrtc/)** | Peer-to-peer communication | Video calls, file sharing | `webrtc/` |
-| **[HTTP/3](./http3/)** | Latest HTTP with QUIC | Modern web apps, mobile | `http3/` |
 
 ## 🔄 Protocol Comparison
 
-| Feature | XHR | SSE | WebSocket | TCP | HTTP/2 | WebRTC | HTTP/3 |
-|---------|-----|-----|-----------|-----|--------|--------|--------|
-| **Request streaming** | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **Response streaming** | Limited | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **Bidirectional** | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **Binary data** | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **Browser cache** | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ |
-| **Compression** | ✅ | ✅ | Limited | ❌ | ✅ | ✅ | ✅ |
-| **Latency** | High | Low | Low | Very Low | Medium | Very Low | Low |
-| **Complexity** | Low | Low | Medium | High | Medium | High | High |
-| **Peer-to-Peer** | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| **Built-in Encryption** | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
+| Feature | XHR | SSE | WebSocket | TCP | HTTP/2 | WebRTC |
+|---------|-----|-----|-----------|-----|--------|--------|
+| **Request streaming** | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
+| **Response streaming** | Limited | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Bidirectional** | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
+| **Binary data** | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ |
+| **Browser cache** | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| **Compression** | ✅ | ✅ | Limited | ❌ | ✅ | ✅ |
+| **Latency** | High | Low | Low | Very Low | Medium | Very Low |
+| **Complexity** | Low | Low | Medium | High | Medium | High |
+| **Peer-to-Peer** | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| **Built-in Encryption** | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
 
 ## 🎯 When to Use Each Protocol
 
@@ -86,13 +85,6 @@ node server.js
 - **Cons**: Complex setup, requires signaling server, browser compatibility
 - **Example**: Video calls, file sharing, gaming, collaborative tools
 
-### HTTP/3
-
-- **Best for**: Modern web applications, mobile apps, global services
-- **Pros**: QUIC protocol, built-in encryption, 0-RTT connection, better mobile performance
-- **Cons**: Newer protocol, limited server support, some network restrictions
-- **Example**: Modern web apps, mobile applications, global content delivery
-
 ## 🛠️ Getting Started
 
 1. **Clone the repository**:
@@ -122,7 +114,6 @@ node server.js
    npm run start:tcp         # Raw TCP Sockets
    npm run start:http2       # HTTP/2
    npm run start:webrtc      # WebRTC
-   npm run start:http3       # HTTP/3
    ```
 
 ## 🔧 Development
@@ -174,7 +165,6 @@ All examples have been comprehensively tested and are working perfectly:
 - ✅ **TCP Sockets**: Raw TCP communication for custom protocols
 - ✅ **HTTP/2**: Modern HTTP with multiplexing and binary framing
 - ✅ **WebRTC**: Peer-to-peer communication with data channels
-- ✅ **HTTP/3**: Latest HTTP with QUIC protocol and built-in encryption
 
 ## 🤝 Contributing
 

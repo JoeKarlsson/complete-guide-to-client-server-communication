@@ -40,7 +40,7 @@
   },
   "homepage": "https://github.com/JoeKarlsson1/Complete_Guide_To_Client_Server_Communication#readme",
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.22.0"
   },
   "devDependencies": {
     "ws": "^8.14.2",

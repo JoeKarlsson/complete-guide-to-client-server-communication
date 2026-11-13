@@ -9,6 +9,7 @@
     "start:sse": "cd server-side-events && npm install && node server.js",
     "start:websocket": "cd client-server-sockets && npm install && node server.js",
     "start:tcp": "cd server-side-sockets && npm install && node server.js",
+    "start:http2": "cd http2 && npm install && node server.js",
     "start:webrtc": "cd webrtc && npm install && node server.js",
     "install:all": "npm install && cd xhr && npm install && cd ../server-side-events && npm install && cd ../client-server-sockets && npm install && cd ../server-side-sockets && npm install && cd ../http2 && npm install && cd ../webrtc && npm install",
     "update:deps": "npm update && npm run install:all",

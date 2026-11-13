@@ -104,7 +104,7 @@ const server = http2.createSecureServer(options, (req, res) => {
     res.end(JSON.stringify({
       resource: resourceNum,
       timestamp: new Date().toISOString(),
-      message: \`This is data from resource \${resourceNum}\`,
+      message: `This is data from resource ${resourceNum}`,
       protocol: 'HTTP/2'
     }));
   } else {

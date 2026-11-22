@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: 'If you use these examples or the guide they come from, please cite the guide.'
+title: 'Complete Guide to Node Client-Server Communication: examples'
+type: software
+authors:
+  - family-names: Karlsson
+    given-names: Joe
+    website: 'https://www.joekarlsson.com'
+repository-code: 'https://github.com/JoeKarlsson/complete-guide-to-client-server-communication'
+url: 'https://www.joekarlsson.com/blog/complete-guide-node-client-server-communication/'
+license: MIT
+keywords:
+  - Node.js
+  - client-server communication
+  - WebSockets
+  - server-sent events
+  - WebRTC
+  - HTTP/2
+preferred-citation:
+  type: blog
+  title: 'Complete Guide To Node Client-Server Communication'
+  authors:
+    - family-names: Karlsson
+      given-names: Joe
+  year: 2016
+  month: 7
+  url: 'https://www.joekarlsson.com/blog/complete-guide-node-client-server-communication/'

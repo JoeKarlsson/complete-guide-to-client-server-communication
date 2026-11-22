@@ -1,0 +1,26 @@
+{
+	"title": "Complete Guide to Node Client-Server Communication: examples",
+	"description": "Working examples of each way a client and server talk to each other in JavaScript and Node: XHR, server-sent events, sockets, WebRTC and HTTP/2.",
+	"upload_type": "software",
+	"creators": [
+		{
+			"name": "Karlsson, Joe"
+		}
+	],
+	"license": "MIT",
+	"keywords": [
+		"Node.js",
+		"client-server communication",
+		"WebSockets",
+		"server-sent events",
+		"WebRTC",
+		"HTTP/2"
+	],
+	"related_identifiers": [
+		{
+			"identifier": "https://www.joekarlsson.com/blog/complete-guide-node-client-server-communication/",
+			"relation": "isSupplementTo",
+			"resource_type": "publication-blogpost"
+		}
+	]
+}

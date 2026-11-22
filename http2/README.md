@@ -15,14 +15,10 @@ This example shows how to:
 
 **Note**: This example requires SSL certificates. The current setup uses self-signed certificates.
 
-1. **Generate SSL certificates** (if not already present):
+1. **Generate a self-signed certificate** for localhost (it lasts 365 days; run it again when it expires):
 
    ```bash
-   # Generate private key
-   openssl genrsa -out server.key 2048
-   
-   # Generate certificate
-   openssl req -new -x509 -key server.key -out server.crt -days 365
+   npm run generate-certs
    ```
 
 2. **Start the HTTP/2 server**:

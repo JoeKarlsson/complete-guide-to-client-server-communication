@@ -8,7 +8,7 @@ const fs = require('fs');       // For reading SSL certificate files
 // HTTP/2 requires HTTPS in browsers, so we need SSL certificates
 if (!fs.existsSync(__dirname + '/server.key') || !fs.existsSync(__dirname + '/server.crt')) {
   console.error('❌ SSL certificates not found!');
-  console.log('Please run: npm run generate-certs');
+  console.log('Please run: npm run generate-certs (in the http2 folder)');
   process.exit(1);
 }
 

@@ -40,14 +40,6 @@
     "url": "https://github.com/JoeKarlsson1/Complete_Guide_To_Client_Server_Communication/issues"
   },
   "homepage": "https://github.com/JoeKarlsson1/Complete_Guide_To_Client_Server_Communication#readme",
-  "dependencies": {
-    "express": "^4.18.2"
-  },
-  "devDependencies": {
-    "ws": "^8.14.2",
-    "nodemon": "^3.0.1",
-    "npm-check-updates": "^16.14.0"
-  },
   "engines": {
     "node": ">=14.0.0",
     "npm": ">=6.0.0"

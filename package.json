@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JoeKarlsson1/Complete_Guide_To_Client_Server_Communication.git"
+    "url": "git+https://github.com/JoeKarlsson/complete-guide-to-client-server-communication.git"
   },
   "keywords": [
     "client-server",
@@ -37,9 +37,9 @@
   "author": "Joe Karlsson",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/JoeKarlsson1/Complete_Guide_To_Client_Server_Communication/issues"
+    "url": "https://github.com/JoeKarlsson/complete-guide-to-client-server-communication/issues"
   },
-  "homepage": "https://github.com/JoeKarlsson1/Complete_Guide_To_Client_Server_Communication#readme",
+  "homepage": "https://github.com/JoeKarlsson/complete-guide-to-client-server-communication#readme",
   "engines": {
     "node": ">=14.0.0",
     "npm": ">=6.0.0"

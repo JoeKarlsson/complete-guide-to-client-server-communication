@@ -2,6 +2,7 @@ cff-version: 1.2.0
 message: 'If you use these examples or the guide they come from, please cite the guide.'
 title: 'Complete Guide to Node Client-Server Communication: examples'
 type: software
+doi: 10.5281/zenodo.24451378
 authors:
   - family-names: Karlsson
     given-names: Joe

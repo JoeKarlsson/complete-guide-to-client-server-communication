@@ -1,5 +1,7 @@
 # Complete Guide to Client-Server Communication
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24451378.svg)](https://doi.org/10.5281/zenodo.24451378)
+
 A comprehensive collection of examples demonstrating different ways clients and servers communicate in JavaScript and Node.js. This repository covers the most important communication protocols used in modern web applications.
 
 ## 🚀 Quick Start

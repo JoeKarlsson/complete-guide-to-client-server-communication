@@ -21,7 +21,7 @@
 		{
 			"identifier": "https://www.joekarlsson.com/blog/complete-guide-node-client-server-communication/",
 			"relation": "isSupplementTo",
-			"resource_type": "publication-blogpost"
+			"resource_type": "publication-other"
 		}
 	]
 }

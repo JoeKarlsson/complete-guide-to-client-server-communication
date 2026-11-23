@@ -5,6 +5,7 @@ type: software
 authors:
   - family-names: Karlsson
     given-names: Joe
+    orcid: 'https://orcid.org/0009-0005-8048-9559'
     website: 'https://www.joekarlsson.com'
 repository-code: 'https://github.com/JoeKarlsson/complete-guide-to-client-server-communication'
 url: 'https://www.joekarlsson.com/blog/complete-guide-node-client-server-communication/'
@@ -22,6 +23,7 @@ preferred-citation:
   authors:
     - family-names: Karlsson
       given-names: Joe
+      orcid: 'https://orcid.org/0009-0005-8048-9559'
   year: 2016
   month: 7
   url: 'https://www.joekarlsson.com/blog/complete-guide-node-client-server-communication/'
